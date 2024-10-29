@@ -84,8 +84,8 @@ function NavigationBar() {
               <ul className="grid grid-cols-2">
                 <div className="space-y-4 p-4">
                   <li>
-                    <a href="/queens" className="hover:text-primary-600 dark:hover:text-primary-500">
-                      Queens
+                    <a href="/wordle" className="hover:text-primary-600 dark:hover:text-primary-500">
+                      Wordle
                     </a>
                   </li>
                   <li>
