@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import Row from './Row';
 
 function Wordle() {
-    const [answer, setAnswer] = useState<string>('TEETH')
+    const [answer, setAnswer] = useState<string>('LUCAS')
     const [guesses, setGuesses] = useState<string[]>(Array(6).fill(''))
     const [currRow, setCurrRow] = useState<number>(0)
     const [result, setResult] = useState<string>('')
@@ -33,6 +33,7 @@ function Wordle() {
     };
 
     useEffect(() => {
+        setAnswer('LUCAS')
         if (!result) {
             window.addEventListener('keydown', handleKeyPress);
             return () => window.removeEventListener('keydown', handleKeyPress)
