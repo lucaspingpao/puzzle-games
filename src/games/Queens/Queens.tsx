@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Square from './Square'
+import { Button } from 'flowbite-react'
 
 interface SquareAttributes {
     text: string,
@@ -83,8 +84,8 @@ function Queens() {
     }
 
     return (
-        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-            <h1>👑 Queens 👑</h1>
+        <div className="flex flex-col items-center">
+            <h1 className="text-3xl py-6">👑 Queens 👑</h1>
             <div>
                 {squares.map((row, r) => {
                     return (
@@ -105,7 +106,7 @@ function Queens() {
                 }
             </div>
             
-            <div style={{display: 'flex', flexDirection: 'column', margin: 20}}>
+            <div className="flex flex-col my-6">
                 <label htmlFor="board-size">Board Size: {size}</label>
                 <input
                     id="board-size"
@@ -115,7 +116,7 @@ function Queens() {
                     value={size}
                     onChange={handleInputChange}
                 />
-                <button onClick={generateBoard}>Generate New Board</button>
+                <Button className="my-4" onClick={generateBoard}>Generate New Board</Button>
             </div>
         </div>
     )

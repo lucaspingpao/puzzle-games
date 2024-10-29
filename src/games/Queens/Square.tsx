@@ -13,10 +13,8 @@ function Square(props: SquareProps) {
     const colorMap = ['gray', 'pink', 'orange', 'yellow', 'limegreen', 'lightblue', 'lavender'];
 
     return (
-        <div
-            style={{ border: '2px solid black', width: 50, height: 50, display: 'flex', fontSize: 24,
-                justifyContent: 'center',
-                alignItems: 'center', backgroundColor: colorMap[props.color] }}
+        <div className="border border-black w-12 h-12 flex text-xl items-center justify-center"
+            style={{ backgroundColor: colorMap[props.color] }}
             onClick={props.onSquareClick}
         >
             {props.value}
