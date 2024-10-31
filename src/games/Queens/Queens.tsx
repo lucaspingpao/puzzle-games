@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Square from './Square'
 import { Button } from 'flowbite-react'
+import Leaderboard from '../../components/Leaderboard'
 
 interface SquareAttributes {
     text: string,
@@ -10,6 +11,12 @@ interface SquareAttributes {
 function Queens() {
     const [size, setSize] = useState<number>(5)
     const [squares, setSquares] = useState<SquareAttributes[][]>([])
+
+    const leaderboardData = [
+        { ranking: 1, username: 'Silver', score: '6x6', time: '0:30' },
+        { ranking: 2, username: 'Black', score: '6x6', time: '0:35' },
+        { ranking: 3, username: 'White', score: '6x6', time: '0:37' },
+    ]
 
     useEffect(() => {
         initializeBoard(5)
@@ -84,39 +91,45 @@ function Queens() {
     }
 
     return (
-        <div className="flex flex-col items-center">
-            <h1 className="text-3xl py-6">👑 Queens 👑</h1>
-            <div>
-                {squares.map((row, r) => {
-                    return (
-                        <div style={{display: 'flex'}} key={r}>
-                            {row.map((col, c) => {
-                                return (
-                                    <Square
-                                        key={c}
-                                        value={col.text}
-                                        color={col.color}
-                                        error=''
-                                        onSquareClick={() => handleSquareClick(r, c)}
-                                    />
-                                )
-                            })}
-                        </div>
-                    )})
-                }
-            </div>
-            
-            <div className="flex flex-col my-6">
-                <label htmlFor="board-size">Board Size: {size}</label>
-                <input
-                    id="board-size"
-                    type="range"
-                    min={3}
-                    max={8}
-                    value={size}
-                    onChange={handleInputChange}
-                />
-                <Button className="my-4" onClick={generateBoard}>Generate New Board</Button>
+        <div>
+            <h1 className="text-5xl my-20 text-center">👑 Queens 👑</h1>
+            <div className="container m-auto grid grid-cols-2">
+                <div className="flex flex-col items-center">
+                    <div>
+                        {squares.map((row, r) => {
+                            return (
+                                <div style={{display: 'flex'}} key={r}>
+                                    {row.map((col, c) => {
+                                        return (
+                                            <Square
+                                                key={c}
+                                                value={col.text}
+                                                color={col.color}
+                                                error=''
+                                                onSquareClick={() => handleSquareClick(r, c)}
+                                            />
+                                        )
+                                    })}
+                                </div>
+                            )})
+                        }
+                    </div>
+                    
+                    <div className="flex flex-col my-6">
+                        <label htmlFor="board-size">Board Size: {size}</label>
+                        <input
+                            id="board-size"
+                            type="range"
+                            min={3}
+                            max={8}
+                            value={size}
+                            onChange={handleInputChange}
+                        />
+                        <Button className="my-4" onClick={generateBoard}>Generate New Board</Button>
+                    </div>
+                </div>
+
+                <Leaderboard data={leaderboardData}/>
             </div>
         </div>
     )
