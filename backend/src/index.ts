@@ -14,5 +14,5 @@ app.get('/api/data', async (req: Request, res: Response) => {
     }
   });
   
-  const PORT = parseInt(process.env.PORT || '5000', 10);
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const PORT = parseInt(process.env.PORT || '5000', 10);
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
