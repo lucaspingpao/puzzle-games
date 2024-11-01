@@ -24,7 +24,7 @@ function Wordle() {
     const { time, isRunning, setIsRunning } = useTimer()
 
     useEffect(() => {
-        fetch('http://localhost:5001/api/data')
+        fetch('/api/data')
         .then(response => response.json())
         .then(data => {
             console.log(data)
@@ -59,7 +59,7 @@ function Wordle() {
         };
         
         try {
-            const response = await fetch('http://localhost:5001/api/leaderboard', {
+            const response = await fetch('/api/leaderboard', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json', // Set the content type to JSON
