@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Button, Checkbox, Label, TextInput } from "flowbite-react"
+import { Button, TextInput } from "flowbite-react"
 import Row from './Row'
 import Leaderboard from '../../components/Leaderboard'
 import useTimer from '../../hooks/userTimer'
