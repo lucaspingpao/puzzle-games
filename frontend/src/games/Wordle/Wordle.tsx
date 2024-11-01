@@ -6,25 +6,76 @@ import useTimer from '../../hooks/userTimer'
 import FIVE_LETTER_WORDS from '../.././constants/fiveLetterWords'
 import TimerDisplay from '../../components/TimerDisplay'
 
+interface LeaderboardData {
+    leaderboard_id: number,
+    game: string,
+    username: string,
+    mode: string,
+    score: number,
+    time_ms: number
+}
+
 function Wordle() {
     const [answer, setAnswer] = useState<string>('')
     const [guesses, setGuesses] = useState<string[]>(Array(6).fill(''))
     const [currRow, setCurrRow] = useState<number>(0)
     const [result, setResult] = useState<string>('')
+    const [leaderboardData, setLeaderboardData] = useState<LeaderboardData[]>([])
     const { time, isRunning, setIsRunning } = useTimer()
 
-    const leaderboardData = [
-        { ranking: 1, username: 'Silver', score: '6x6', time: '0:30' },
-        { ranking: 2, username: 'Black', score: '6x6', time: '0:35' },
-        { ranking: 3, username: 'White', score: '6x6', time: '0:37' },
-        { ranking: 4, username: 'Silver', score: '6x6', time: '0:30' },
-        { ranking: 5, username: 'Black', score: '6x6', time: '0:35' },
-        { ranking: 6, username: 'White', score: '6x6', time: '0:37' },
-        { ranking: 7, username: 'Silver', score: '6x6', time: '0:30' },
-        { ranking: 8, username: 'Black', score: '6x6', time: '0:35' },
-        { ranking: 9, username: 'White', score: '6x6', time: '0:37' },
-        { ranking: 10, username: 'White', score: '6x6', time: '0:37' },
-    ]
+    useEffect(() => {
+        fetch('/api/data')
+        .then(response => response.json())
+        .then(data => {
+            setLeaderboardData(data)
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error)
+        });
+    })
+
+    useEffect(() => {
+        if (answer.length === 1) {
+            const randomIndex = Math.floor(Math.random() * FIVE_LETTER_WORDS.size)
+            setAnswer(Array.from(FIVE_LETTER_WORDS)[randomIndex].toUpperCase())
+        }
+        setAnswer('HELLO')
+
+        if (!result) {
+            window.addEventListener('keydown', handleKeyPress);
+            return () => window.removeEventListener('keydown', handleKeyPress)
+        }
+    }, [guesses]);
+
+    const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault()
+        const scoreData = {
+            game: 'wordle',
+            username: 'player1',
+            mode: 'normal',
+            score: 120,
+            time_ms: 30000,
+        };
+        
+        try {
+            const response = await fetch('http://localhost:5001/api/leaderboard', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json', // Set the content type to JSON
+                },
+                body: JSON.stringify(scoreData), // Convert the scoreData object to a JSON string
+            });
+        
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+        
+            const result = await response.json(); // Parse the JSON response
+            console.log('Score submitted successfully:', result);
+        } catch (error) {
+            console.error('Error submitting score:', error);
+        }
+    }
 
     const handleKeyPress = (e: KeyboardEvent) => {
         let currWord = guesses[currRow]
@@ -57,18 +108,6 @@ function Wordle() {
         console.log(guesses)
     };
 
-    useEffect(() => {
-        if (answer.length === 0) {
-            const randomIndex = Math.floor(Math.random() * FIVE_LETTER_WORDS.size)
-            setAnswer(Array.from(FIVE_LETTER_WORDS)[randomIndex].toUpperCase())
-        }
-
-        if (!result) {
-            window.addEventListener('keydown', handleKeyPress);
-            return () => window.removeEventListener('keydown', handleKeyPress)
-        }
-    }, [guesses]);
-
     return (
         <div>
             <h1 className='text-5xl py-10 text-center'>WordHole</h1>
@@ -92,7 +131,7 @@ function Wordle() {
                                 <h2>Submit your score to the leaderboard!</h2>
                                 <div className='flex flex-row my-2'>
                                     <TextInput placeholder="Username" required /> 
-                                    <Button type="submit">Submit</Button>
+                                    <Button type="submit" onClick={handleSubmit}>Submit</Button>
                                 </div>
                             </form>
                         }

@@ -1,9 +1,13 @@
-import pg from 'pg';
-const { Pool } = pg;
-dotenv.config();
+import pg from 'pg'
+import dotenv from 'dotenv'
+
+// Load environment variables from .env file
+dotenv.config()
+
+const { Pool } = pg
 
 const pool = new Pool({
-  connectionString: process.env.POSTGRES_URL,
+  connectionString: process.env.POSTGRES_URL
 })
 
-export default pool;
+export default pool
