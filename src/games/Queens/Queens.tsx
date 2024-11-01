@@ -21,6 +21,13 @@ function Queens() {
         { ranking: 1, username: 'Silver', score: '6x6', time: '0:30' },
         { ranking: 2, username: 'Black', score: '6x6', time: '0:35' },
         { ranking: 3, username: 'White', score: '6x6', time: '0:37' },
+        { ranking: 4, username: 'Silver', score: '6x6', time: '0:30' },
+        { ranking: 5, username: 'Black', score: '6x6', time: '0:35' },
+        { ranking: 6, username: 'White', score: '6x6', time: '0:37' },
+        { ranking: 7, username: 'Silver', score: '6x6', time: '0:30' },
+        { ranking: 8, username: 'Black', score: '6x6', time: '0:35' },
+        { ranking: 9, username: 'White', score: '6x6', time: '0:37' },
+        { ranking: 10, username: 'White', score: '6x6', time: '0:37' },
     ]
 
     useEffect(() => {

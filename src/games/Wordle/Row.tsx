@@ -3,6 +3,7 @@ import Square from './Square'
 interface RowProps {
     value: string
     answer: string
+    valid: boolean
 }
 
 function Row(props: RowProps) {
@@ -12,7 +13,7 @@ function Row(props: RowProps) {
     }
 
     let colorMap = Array(5).fill("bg-gray-200")
-    if (props.value.length == props.answer.length) {
+    if (props.valid && props.value.length === props.answer.length) {
         let charMap = new Map()
         for (let c of props.answer) {
             if (charMap.has(c)) {
@@ -23,14 +24,14 @@ function Row(props: RowProps) {
         }
 
         for (let i = 0; i < charArray.length; i++) {
-            if (charArray[i] == props.answer[i]) {
+            if (charArray[i] === props.answer[i]) {
                 colorMap[i] = "bg-green-200"
                 charMap.set(charArray[i], charMap.get(charArray[i]) - 1)
             }
         }
 
         for (let j = 0; j < charArray.length; j++) {
-            if (charArray[j] == props.answer[j]) {
+            if (charArray[j] === props.answer[j]) {
                 ;
             } else if (charMap.has(charArray[j]) && charMap.get(charArray[j]) > 0) {
                 colorMap[j] = "bg-yellow-200"
