@@ -14,7 +14,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 
-app.post('/api/leaderboard', async (req: Request, res: Response) => {
+app.post('/leaderboard', async (req: Request, res: Response) => {
   try {
     const { game, username, mode, score, time_ms } = req.body
     const result = await pool.query(
@@ -35,7 +35,7 @@ app.get('/hello', (req, res) => {
 })
 
 
-app.get('/api/data', async (req: Request, res: Response) => {
+app.get('/data', async (req: Request, res: Response) => {
   try {
     const { rows } = await pool.query('SELECT * FROM leaderboard ORDER BY score DESC')
     res.json(rows)
