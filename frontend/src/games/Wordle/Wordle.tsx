@@ -24,15 +24,16 @@ function Wordle() {
     const { time, isRunning, setIsRunning } = useTimer()
 
     useEffect(() => {
-        fetch('/api/data')
+        fetch('http://localhost:5001/api/data')
         .then(response => response.json())
         .then(data => {
+            console.log(data)
             setLeaderboardData(data)
         })
         .catch(error => {
             console.error('Error fetching data:', error)
         });
-    })
+    }, [])
 
     useEffect(() => {
         if (answer.length === 1) {

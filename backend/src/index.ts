@@ -3,19 +3,11 @@ import cors from 'cors'
 import pool from './db';
 
 const app: Express = express();
-app.use(cors());
+app.use(cors({
+  origin: '*',  // Allows all origins
+}));
 app.use(express.json());
 
-// Define a route to get data from the leaderboard
-app.get('/api/data', async (req: Request, res: Response) => {
-  try {
-    const { rows } = await pool.query('SELECT * FROM leaderboard ORDER BY score DESC')
-    res.json(rows)
-  } catch (err) {
-    console.error(err)
-    res.status(500).json({ error: 'Database error' })
-  }
-})
 
 app.post('/api/leaderboard', async (req: Request, res: Response) => {
   try {
@@ -31,8 +23,28 @@ app.post('/api/leaderboard', async (req: Request, res: Response) => {
   }
 })
 
+
+// test endpoint
+app.get('/hello', (req, res) => {
+  res.send('hello world')
+})
+
+
+app.get('/api/data', async (req: Request, res: Response) => {
+  try {
+    const { rows } = await pool.query('SELECT * FROM leaderboard ORDER BY score DESC')
+    console.log(rows)
+    res.json(rows)
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ error: 'Database error' })
+  }
+})
+
+
+
 // Set the port to listen on
-const PORT = parseInt(process.env.PORT || '5000')
+const PORT = parseInt(process.env.PORT || '5001')
 
 // Start the server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))

@@ -28,7 +28,7 @@ function Queens() {
     const { time, setTime, isRunning, setIsRunning } = useTimer()
 
     useEffect(() => {
-        fetch('/api/data')
+        fetch('http://localhost:5001/api/data')
         .then(response => response.json())
         .then(data => {
             setLeaderboardData(data)
