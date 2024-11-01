@@ -10,7 +10,7 @@ interface SquareProps {
 function Square(props: SquareProps) {
     // const [showCrown, setShowCrown] = useState<boolean>(false)
 
-    const colorMap = ['gray', 'pink', 'orange', 'yellow', 'limegreen', 'lightblue', 'lavender'];
+    const colorMap = ['gray', 'pink', 'orange', 'yellow', 'limegreen', 'lightblue', 'indigo', 'lavender', 'tan'];
 
     return (
         <div className="border border-black w-12 h-12 flex text-xl items-center justify-center"

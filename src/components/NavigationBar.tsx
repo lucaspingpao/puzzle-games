@@ -14,7 +14,7 @@ function NavigationBar() {
       <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4 md:space-x-8">
         <NavbarBrand href="/">
           <img alt="" src="/vite.svg" className="mr-3 h-6 sm:h-9" />
-          <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">LP's Puzzle Games</span>
+          <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Pao's Puzzles</span>
         </NavbarBrand>
         <NavbarToggle />
         <NavbarCollapse>

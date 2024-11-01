@@ -3,6 +3,7 @@ import NavigationBar from './components/NavigationBar'
 import Home from './Home'
 import Queens from './games/Queens/Queens'
 import Wordle from './games/Wordle/Wordle'
+import FooterBar from './components/FooterBar';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/queens" element={<Queens />}/>
         <Route path="/wordle" element={<Wordle />}/>
       </Routes>
+      <FooterBar />
     </Router>
   )
 }
