@@ -9,26 +9,34 @@ interface SquareAttributes {
     color: number,
 }
 
+interface LeaderboardData {
+    leaderboard_id: number,
+    game: string,
+    username: string,
+    mode: string,
+    score: number,
+    time_ms: number
+}
+
 function Queens() {
     const INITIAL_GAME_SIZE = 5
     const [size, setSize] = useState<number>(INITIAL_GAME_SIZE)
     const [squares, setSquares] = useState<SquareAttributes[][]>([])
     const [pieces, setPieces] = useState<string[]>([])
     const [result, setResult] = useState<string>('')
+    const [leaderboardData, setLeaderboardData] = useState<LeaderboardData[]>([])
     const { time, setTime, isRunning, setIsRunning } = useTimer()
 
-    const leaderboardData = [
-        { ranking: 1, username: 'Silver', score: '6x6', time: '0:30' },
-        { ranking: 2, username: 'Black', score: '6x6', time: '0:35' },
-        { ranking: 3, username: 'White', score: '6x6', time: '0:37' },
-        { ranking: 4, username: 'Silver', score: '6x6', time: '0:30' },
-        { ranking: 5, username: 'Black', score: '6x6', time: '0:35' },
-        { ranking: 6, username: 'White', score: '6x6', time: '0:37' },
-        { ranking: 7, username: 'Silver', score: '6x6', time: '0:30' },
-        { ranking: 8, username: 'Black', score: '6x6', time: '0:35' },
-        { ranking: 9, username: 'White', score: '6x6', time: '0:37' },
-        { ranking: 10, username: 'White', score: '6x6', time: '0:37' },
-    ]
+    useEffect(() => {
+        fetch('/api/data')
+        .then(response => response.json())
+        .then(data => {
+            setLeaderboardData(data)
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error)
+        });
+    })
 
     useEffect(() => {
         initializeBoard(INITIAL_GAME_SIZE)
