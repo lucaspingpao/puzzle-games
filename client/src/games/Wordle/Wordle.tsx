@@ -21,6 +21,7 @@ function Wordle() {
     const [currRow, setCurrRow] = useState<number>(0)
     const [result, setResult] = useState<string>('')
     const [leaderboardData, setLeaderboardData] = useState<LeaderboardData[]>([])
+    const [username, setUsername] = useState<string>('')
     const { time, isRunning, setIsRunning } = useTimer()
 
     useEffect(() => {
@@ -52,27 +53,28 @@ function Wordle() {
         event.preventDefault()
         const scoreData = {
             game: 'wordle',
-            username: 'player1',
+            username,
             mode: 'normal',
             score: 120,
-            time_ms: 30000,
+            time_ms: time,
         };
         
         try {
-            const response = await fetch('/api/leaderboard', {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/leaderboard`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json', // Set the content type to JSON
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(scoreData), // Convert the scoreData object to a JSON string
+                body: JSON.stringify(scoreData),
             });
         
             if (!response.ok) {
               throw new Error(`HTTP error! status: ${response.status}`);
             }
         
-            const result = await response.json(); // Parse the JSON response
+            const result = await response.json();
             console.log('Score submitted successfully:', result);
+            setLeaderboardData([...leaderboardData, result])
         } catch (error) {
             console.error('Error submitting score:', error);
         }
@@ -131,7 +133,12 @@ function Wordle() {
                             <form className="flex flex-col pb-10">
                                 <h2>Submit your score to the leaderboard!</h2>
                                 <div className='flex flex-row my-2'>
-                                    <TextInput placeholder="Username" required /> 
+                                    <TextInput
+                                        value={username}
+                                        onChange={(e) => setUsername(e.target.value)}
+                                        placeholder="Username"
+                                        required
+                                    /> 
                                     <Button type="submit" onClick={handleSubmit}>Submit</Button>
                                 </div>
                             </form>
