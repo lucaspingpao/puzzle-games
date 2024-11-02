@@ -3,7 +3,7 @@ import { Button, TextInput } from "flowbite-react"
 import Row from './Row'
 import Leaderboard from '../../components/Leaderboard'
 import useTimer from '../../hooks/userTimer'
-import FIVE_LETTER_WORDS from '../.././constants/fiveLetterWords'
+import FIVE_LETTER_WORDS from '../../constants/fiveLetterWords'
 import TimerDisplay from '../../components/TimerDisplay'
 
 interface LeaderboardData {
