@@ -51,3 +51,6 @@ const PORT = parseInt(process.env.PORT || '5001')
 
 // Start the server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+
+// Export the Express API
+module.exports = app
