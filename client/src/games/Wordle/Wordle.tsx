@@ -24,7 +24,7 @@ function Wordle() {
     const { time, isRunning, setIsRunning } = useTimer()
 
     useEffect(() => {
-        fetch('/api/data')
+        fetch(`${import.meta.env.VITE_API_URL}/data`)
         .then(response => response.json())
         .then(data => {
             console.log(data)
