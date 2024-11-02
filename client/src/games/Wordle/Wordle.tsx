@@ -73,8 +73,8 @@ function Wordle() {
             }
         
             const result = await response.json();
-            console.log('Score submitted successfully:', result);
-            setLeaderboardData([...leaderboardData, result])
+            console.log('Score submitted successfully:', result[0]);
+            setLeaderboardData([...leaderboardData, result[0]])
         } catch (error) {
             console.error('Error submitting score:', error);
         }
