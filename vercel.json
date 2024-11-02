@@ -2,6 +2,10 @@
     "version": 2,
     "builds": [
         {
+            "src": "server/api/index.ts",
+            "use": "@vercel/node"
+        },
+        {
             "src": "client/package.json",
             "use": "@vercel/static-build",
             "config": {
@@ -12,7 +16,11 @@
     "rewrites": [
         {
             "source": "/(.*)",
-            "destination": "/"
+            "destination": "/client"
+        },
+        {
+            "source": "/api/(.*)",
+            "destination": "/server/api"
         }
     ]
 }
