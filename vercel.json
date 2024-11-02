@@ -19,8 +19,8 @@
         "dest": "/api/index.ts"
       },
       {
-        "src": "/[^.]+",
-        "dest": "/client/index.html"
+        "src": "/queens",
+        "dest": "/"
       }
     ]
 }
