@@ -30,7 +30,7 @@ app.post('/api/leaderboard', async (req: Request, res: Response) => {
 
 
 // test endpoint
-app.get('/hello', (req, res) => {
+app.get('/api/hello', (req, res) => {
   res.send('hello world')
 })
 
