@@ -4,5 +4,6 @@ CREATE TABLE leaderboard (
     username VARCHAR(255),
     mode VARCHAR(255),
     score INT,
-    time_ms INT
+    time_ms INT,
+    time_played TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

@@ -3,6 +3,7 @@ import Square from './Square'
 import { Button, TextInput } from 'flowbite-react'
 import Leaderboard from '../../components/Leaderboard'
 import useTimer from '../../hooks/userTimer'
+import TimerDisplay from '../../components/TimerDisplay'
 
 interface SquareAttributes {
     text: string,
@@ -210,11 +211,9 @@ function Queens() {
     return (
         <div>
             <h1 className="text-5xl py-10 text-center">Rooks</h1>
-            <div className="container m-auto grid grid-cols-2">
+            <div className="grid grid-cols-1 lg:mx-10 xl:mx-20 lg:grid-cols-2">
                 <div className="flex flex-col items-center">
-                    <div className="my-4">
-                        <h1>Timer: {(time / 1000).toFixed(2)}s</h1>
-                    </div>
+                    <TimerDisplay time={time}/>
                     <div className="cursor-pointer select-none">
                         {squares.map((row, r) => {
                             return (
@@ -235,39 +234,37 @@ function Queens() {
                         }
                     </div>
                     
-                    <div className="flex flex-col my-6 items-center">
-                        <label htmlFor="board-size">Board Size: {size}</label>
-                        <input
-                            id="board-size"
-                            type="range"
-                            min={3}
-                            max={8}
-                            value={size}
-                            onChange={handleInputChange}
-                        />
-                        <Button className="my-4" onClick={generateBoard}>Generate New Board</Button>
+                    
+                    <label className="mt-4" htmlFor="board-size">Board Size: {size}</label>
+                    <input
+                        id="board-size"
+                        type="range"
+                        min={3}
+                        max={8}
+                        value={size}
+                        onChange={handleInputChange}
+                    />
+                    <Button className="my-4" onClick={generateBoard}>Generate New Board</Button>
 
-                        <h2 className='mt-4'>{result}</h2>
-                        {result === 'You won!' && 
-                            <form className="flex flex-col pb-10">
-                                <h2>Submit your score to the leaderboard!</h2>
-                                <div className='flex flex-row my-2'>
-                                    <TextInput
-                                        value={username}
-                                        onChange={(e) => setUsername(e.target.value)}
-                                        placeholder="Username"
-                                        required
-                                    />
-                                    <Button type="submit" onClick={handleSubmit} disabled={submitted}>Submit</Button>
-                                </div>
-                            </form>
-                        }
-                        {result && <Button onClick={() => location.reload()}>Try Again</Button>}
-                    </div>
+                    <h2 className='mt-4'>{result}</h2>
+                    {result === 'You won!' && 
+                        <form className="flex flex-col pb-10">
+                            <h2>Submit your score to the leaderboard!</h2>
+                            <div className='flex flex-row my-2'>
+                                <TextInput
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    placeholder="Username"
+                                    required
+                                />
+                                <Button type="submit" onClick={handleSubmit} disabled={submitted}>Submit</Button>
+                            </div>
+                        </form>
+                    }
+                    {result && <Button onClick={() => location.reload()}>Try Again</Button>}
                 </div>
 
                 <Leaderboard data={leaderboardData}/>
-                
             </div>
         </div>
     )

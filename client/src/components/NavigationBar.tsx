@@ -18,97 +18,62 @@ function NavigationBar() {
         </NavbarBrand>
         <NavbarToggle />
         <NavbarCollapse>
-          <NavbarLink href="/queens">Home</NavbarLink>
-          <NavbarLink>
-            <MegaMenuDropdown toggle={<>Board</>}>
-              <ul className="grid grid-cols-2">
-                <div className="space-y-4 p-4">
-                  <li>
-                    <a href="/queens" className="hover:text-primary-600 dark:hover:text-primary-500">
-                      Queens
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="hover:text-primary-600 dark:hover:text-primary-500">
-                      Queens
-                    </a>
-                  </li>
-                </div>
-                <div className="space-y-4 p-4">
-                  <li>
-                    <a href="/queens" className="hover:text-primary-600 dark:hover:text-primary-500">
-                      Queens
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="hover:text-primary-600 dark:hover:text-primary-500">
-                      Queens
-                    </a>
-                  </li>
-                </div>
-              </ul>
-            </MegaMenuDropdown>
-          </NavbarLink>
-          <NavbarLink>
-            <MegaMenuDropdown toggle={<>Logic</>}>
-              <ul className="grid grid-cols-2">
-                <div className="space-y-4 p-4">
-                  <li>
-                    <a href="/queens" className="hover:text-primary-600 dark:hover:text-primary-500">
-                      Queens
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="hover:text-primary-600 dark:hover:text-primary-500">
-                      Queens
-                    </a>
-                  </li>
-                </div>
-                <div className="space-y-4 p-4">
-                  <li>
-                    <a href="/queens" className="hover:text-primary-600 dark:hover:text-primary-500">
-                      Queens
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="hover:text-primary-600 dark:hover:text-primary-500">
-                      Queens
-                    </a>
-                  </li>
-                </div>
-              </ul>
-            </MegaMenuDropdown>
-          </NavbarLink>
-          <NavbarLink>
-            <MegaMenuDropdown toggle={<>Word</>}>
-              <ul className="grid grid-cols-2">
-                <div className="space-y-4 p-4">
-                  <li>
-                    <a href="/wordle" className="hover:text-primary-600 dark:hover:text-primary-500">
-                      Wordle
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="hover:text-primary-600 dark:hover:text-primary-500">
-                      Queens
-                    </a>
-                  </li>
-                </div>
-                <div className="space-y-4 p-4">
-                  <li>
-                    <a href="/queens" className="hover:text-primary-600 dark:hover:text-primary-500">
-                      Queens
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="hover:text-primary-600 dark:hover:text-primary-500">
-                      Queens
-                    </a>
-                  </li>
-                </div>
-              </ul>
-            </MegaMenuDropdown>
-          </NavbarLink>
+          <MegaMenuDropdown toggle={<>Board</>}>
+            <ul className="grid grid-cols-2">
+              <div className="space-y-4 p-4">
+                <li>
+                  <a href="/queens" className="hover:text-primary-600 dark:hover:text-primary-500">
+                    Queens
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-primary-600 dark:hover:text-primary-500">
+                    
+                  </a>
+                </li>
+              </div>
+              <div className="space-y-4 p-4">
+                <li>
+                  <a href="/queens" className="hover:text-primary-600 dark:hover:text-primary-500">
+                    
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-primary-600 dark:hover:text-primary-500">
+                    
+                  </a>
+                </li>
+              </div>
+            </ul>
+          </MegaMenuDropdown>
+          <MegaMenuDropdown toggle={<>Word</>}>
+            <ul className="grid grid-cols-2">
+              <div className="space-y-4 p-4">
+                <li>
+                  <a href="/wordle" className="hover:text-primary-600 dark:hover:text-primary-500">
+                    Wordle
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-primary-600 dark:hover:text-primary-500">
+                    
+                  </a>
+                </li>
+              </div>
+              <div className="space-y-4 p-4">
+                <li>
+                  <a href="/queens" className="hover:text-primary-600 dark:hover:text-primary-500">
+                    
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-primary-600 dark:hover:text-primary-500">
+                    
+                  </a>
+                </li>
+              </div>
+            </ul>
+          </MegaMenuDropdown>
         </NavbarCollapse>
       </div>
     </MegaMenu>

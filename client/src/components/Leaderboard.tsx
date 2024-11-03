@@ -14,7 +14,7 @@ interface LeaderboardProps {
 
 function Leaderboard(props: LeaderboardProps) {
     return (
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto m-10">
             <Table hoverable>
                 <TableHead>
                     <TableHeadCell>Ranking</TableHeadCell>

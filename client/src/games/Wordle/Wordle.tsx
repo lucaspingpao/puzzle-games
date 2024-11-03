@@ -24,6 +24,10 @@ function Wordle() {
     const { time, isRunning, setIsRunning } = useTimer()
 
     useEffect(() => {
+        fetchData()
+    }, [])
+
+    const fetchData = async () => {
         fetch(`${import.meta.env.VITE_API_URL}/data/wordle`)
         .then(response => response.json())
         .then(data => {
@@ -33,7 +37,7 @@ function Wordle() {
         .catch(error => {
             console.error('Error fetching data:', error)
         });
-    }, [])
+    }
 
     useEffect(() => {
         if (answer.length === 0) {
@@ -70,6 +74,7 @@ function Wordle() {
         
             const result = await response.json();
             console.log('Score submitted successfully:', result);
+            fetchData();
         } catch (error) {
             console.error('Error submitting score:', error);
         }
@@ -108,10 +113,10 @@ function Wordle() {
     return (
         <div>
             <h1 className='text-5xl py-10 text-center'>WordHole</h1>
-            <div className='container m-auto grid grid-cols-2'>
+            <div className='grid grid-cols-1 lg:mx-10 xl:mx-20 lg:grid-cols-2'>
                 <div className="flex flex-col items-center">
                     <TimerDisplay time={time}/>
-                    <div className='flex flex-col px-10 items-center'>
+                    <div className='mb-10 mx-auto'>
                         {guesses.map((str, idx) => {
                             return (
                                 <Row
@@ -122,23 +127,23 @@ function Wordle() {
                                 />
                             )
                         })}
-                        <h2 className='mt-4'>{result}</h2>
-                        {result === 'You won!' &&
-                            <form className="flex flex-col pb-10">
-                                <h2>Submit your score to the leaderboard!</h2>
-                                <div className='flex flex-row my-2'>
-                                    <TextInput
-                                        value={username}
-                                        onChange={(e) => setUsername(e.target.value)}
-                                        placeholder="Username"
-                                        required
-                                    />
-                                    <Button type="submit" disabled={submitted} onClick={handleSubmit}>Submit</Button>
-                                </div>
-                            </form>
-                        }
-                        {result && <Button onClick={() => location.reload()}>Try Again</Button>}
                     </div>
+                    <h2 className='mt-4'>{result}</h2>
+                    {result === 'You won!' &&
+                        <form className="flex flex-col pb-10">
+                            <h2>Submit your score to the leaderboard!</h2>
+                            <div className='flex flex-row my-2'>
+                                <TextInput
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    placeholder="Username"
+                                    required
+                                />
+                                <Button type="submit" disabled={submitted} onClick={handleSubmit}>Submit</Button>
+                            </div>
+                        </form>
+                    }
+                    {result && <Button onClick={() => location.reload()}>Try Again</Button>}
                 </div>
                 <Leaderboard data={leaderboardData}/>
             </div>
