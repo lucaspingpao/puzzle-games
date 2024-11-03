@@ -14,14 +14,15 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 
-app.post('/api/leaderboard', async (req: Request, res: Response) => {
+app.post('/api/leaderboard/:game', async (req: Request, res: Response) => {
+  const { game } = req.params;
   try {
-    const { game, username, mode, score, time_ms } = req.body
+    const { username, mode, score, time_ms } = req.body
     const result = await pool.query(
       'INSERT INTO leaderboard (game, username, mode, score, time_ms) VALUES ($1, $2, $3, $4, $5) RETURNING *',
       [game, username, mode, score, time_ms]
     );
-    res.json(result.rows)
+    res.json(result.rows[0])
   } catch (err) {
     console.error(err)
     res.status(500).json({ error: 'Database error' })
@@ -35,9 +36,13 @@ app.get('/api/hello', (req, res) => {
 })
 
 
-app.get('/api/data', async (req: Request, res: Response) => {
+app.get('/api/data/:game', async (req: Request, res: Response) => {
+  const { game } = req.params;
   try {
-    const { rows } = await pool.query('SELECT * FROM leaderboard ORDER BY score DESC')
+    const { rows } = await pool.query(
+      'SELECT username, mode, score, time_ms FROM leaderboard WHERE game=$1 ORDER BY score DESC, time_ms LIMIT 10',
+      [game]
+    )
     res.json(rows)
   } catch (err) {
     console.error(err)

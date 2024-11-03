@@ -10,8 +10,6 @@ interface SquareAttributes {
 }
 
 interface LeaderboardData {
-    leaderboard_id: number,
-    game: string,
     username: string,
     mode: string,
     score: number,
@@ -25,18 +23,49 @@ function Queens() {
     const [pieces, setPieces] = useState<string[]>([])
     const [result, setResult] = useState<string>('')
     const [leaderboardData, setLeaderboardData] = useState<LeaderboardData[]>([])
+    const [username, setUsername] = useState<string>('')
+    const [submitted, setSubmitted] = useState<boolean>(false)
     const { time, setTime, isRunning, setIsRunning } = useTimer()
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL}/data`)
+        fetch(`${import.meta.env.VITE_API_URL}/data/queens`)
         .then(response => response.json())
         .then(data => {
+            console.log("Successfully fetched data:", data)
             setLeaderboardData(data)
         })
         .catch(error => {
             console.error('Error fetching data:', error)
         });
-    })
+    }, [])
+
+    const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault()
+        setSubmitted(true)
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/leaderboard/queens`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username,
+                    mode: `${size}x${size}`,
+                    score: 0,
+                    time_ms: time,
+                }),
+            });
+        
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+        
+            const result = await response.json();
+            console.log('Score submitted successfully:', result);
+        } catch (error) {
+            console.error('Error submitting score:', error);
+        }
+    }
 
     useEffect(() => {
         initializeBoard(INITIAL_GAME_SIZE)
@@ -223,15 +252,22 @@ function Queens() {
                             <form className="flex flex-col pb-10">
                                 <h2>Submit your score to the leaderboard!</h2>
                                 <div className='flex flex-row my-2'>
-                                    <TextInput placeholder="Username" required /> 
-                                    <Button type="submit">Submit</Button>
+                                    <TextInput
+                                        value={username}
+                                        onChange={(e) => setUsername(e.target.value)}
+                                        placeholder="Username"
+                                        required
+                                    />
+                                    <Button type="submit" onClick={handleSubmit} disabled={submitted}>Submit</Button>
                                 </div>
                             </form>
                         }
+                        {result && <Button onClick={() => location.reload()}>Try Again</Button>}
                     </div>
                 </div>
 
                 <Leaderboard data={leaderboardData}/>
+                
             </div>
         </div>
     )

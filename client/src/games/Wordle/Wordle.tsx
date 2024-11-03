@@ -7,8 +7,6 @@ import FIVE_LETTER_WORDS from '../../constants/fiveLetterWords'
 import TimerDisplay from '../../components/TimerDisplay'
 
 interface LeaderboardData {
-    leaderboard_id: number,
-    game: string,
     username: string,
     mode: string,
     score: number,
@@ -22,13 +20,14 @@ function Wordle() {
     const [result, setResult] = useState<string>('')
     const [leaderboardData, setLeaderboardData] = useState<LeaderboardData[]>([])
     const [username, setUsername] = useState<string>('')
+    const [submitted, setSubmitted] = useState<boolean>(false)
     const { time, isRunning, setIsRunning } = useTimer()
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL}/data`)
+        fetch(`${import.meta.env.VITE_API_URL}/data/wordle`)
         .then(response => response.json())
         .then(data => {
-            console.log(data)
+            console.log("Successfully fetched data:", data)
             setLeaderboardData(data)
         })
         .catch(error => {
@@ -37,11 +36,10 @@ function Wordle() {
     }, [])
 
     useEffect(() => {
-        if (answer.length === 1) {
+        if (answer.length === 0) {
             const randomIndex = Math.floor(Math.random() * FIVE_LETTER_WORDS.size)
             setAnswer(Array.from(FIVE_LETTER_WORDS)[randomIndex].toUpperCase())
         }
-        setAnswer('HELLO')
 
         if (!result) {
             window.addEventListener('keydown', handleKeyPress);
@@ -51,21 +49,19 @@ function Wordle() {
 
     const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault()
-        const scoreData = {
-            game: 'wordle',
-            username,
-            mode: 'normal',
-            score: 120,
-            time_ms: time,
-        };
-        
+        setSubmitted(true)
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/leaderboard`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/leaderboard/wordle`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(scoreData),
+                body: JSON.stringify({
+                    username,
+                    mode: '5x6',
+                    score: 6 - guesses.filter(str => str.length > 0).length,
+                    time_ms: time,
+                }),
             });
         
             if (!response.ok) {
@@ -73,8 +69,7 @@ function Wordle() {
             }
         
             const result = await response.json();
-            console.log('Score submitted successfully:', result[0]);
-            setLeaderboardData([...leaderboardData, result[0]])
+            console.log('Score submitted successfully:', result);
         } catch (error) {
             console.error('Error submitting score:', error);
         }
@@ -108,7 +103,6 @@ function Wordle() {
                 setResult('You lost!')
             }
         }
-        console.log(guesses)
     };
 
     return (
@@ -129,7 +123,7 @@ function Wordle() {
                             )
                         })}
                         <h2 className='mt-4'>{result}</h2>
-                        {result === 'You won!' && 
+                        {result === 'You won!' &&
                             <form className="flex flex-col pb-10">
                                 <h2>Submit your score to the leaderboard!</h2>
                                 <div className='flex flex-row my-2'>
@@ -138,11 +132,12 @@ function Wordle() {
                                         onChange={(e) => setUsername(e.target.value)}
                                         placeholder="Username"
                                         required
-                                    /> 
-                                    <Button type="submit" onClick={handleSubmit}>Submit</Button>
+                                    />
+                                    <Button type="submit" disabled={submitted} onClick={handleSubmit}>Submit</Button>
                                 </div>
                             </form>
                         }
+                        {result && <Button onClick={() => location.reload()}>Try Again</Button>}
                     </div>
                 </div>
                 <Leaderboard data={leaderboardData}/>

@@ -2,8 +2,6 @@
 import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 
 interface LeaderboardData {
-    leaderboard_id: number,
-    game: string,
     username: string,
     mode: string,
     score: number,
@@ -21,6 +19,7 @@ function Leaderboard(props: LeaderboardProps) {
                 <TableHead>
                     <TableHeadCell>Ranking</TableHeadCell>
                     <TableHeadCell>Name</TableHeadCell>
+                    <TableHeadCell>Mode</TableHeadCell>
                     <TableHeadCell>Score</TableHeadCell>
                     <TableHeadCell>Time</TableHeadCell>
                 </TableHead>
@@ -34,6 +33,7 @@ function Leaderboard(props: LeaderboardProps) {
                             <TableRow key={idx} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                                 <TableCell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">{idx + 1}</TableCell>
                                 <TableCell>{row.username}</TableCell>
+                                <TableCell>{row.mode}</TableCell>
                                 <TableCell>{row.score}</TableCell>
                                 <TableCell>{displayTime}</TableCell>
                             </TableRow>
