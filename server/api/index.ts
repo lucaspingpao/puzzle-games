@@ -5,7 +5,12 @@ import pool from './db';
 const app: Express = express();
 
 const corsOptions: CorsOptions = {
-  origin: ['http://localhost:5173', 'https://paos-puzzles.vercel.app', 'http://localhost:3000'],
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'https://paos-puzzles.vercel.app',
+    'https://paos-puzzles-server.vercel.app'
+  ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
 };
