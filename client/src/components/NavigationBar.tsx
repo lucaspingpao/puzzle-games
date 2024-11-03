@@ -4,7 +4,6 @@ import {
   MegaMenuDropdown,
   NavbarBrand,
   NavbarCollapse,
-  NavbarLink,
   NavbarToggle
 } from 'flowbite-react';
 
