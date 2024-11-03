@@ -1,3 +1,13 @@
-new project
+# Pao's Puzzles
 
-npx tailwindcss -i ./input.css -o ./output.css --watch
+## WordHole
+Wordle but there can be spaces! (🕳️)
+
+## Rooks
+LinkedIn's Queens but with Rooks!
+
+
+Update Tailwind
+```
+npx tailwindcss -i ./input.css -o ./output.css --minify --watch
+```
