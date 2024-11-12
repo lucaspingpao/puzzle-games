@@ -1,71 +1,38 @@
-import { useState, useEffect } from 'react'
-import Square from './Square'
-import { Button, TextInput } from 'flowbite-react'
-import Leaderboard from '../../components/Leaderboard'
-import useTimer from '../../hooks/userTimer'
-import TimerDisplay from '../../components/TimerDisplay'
+import { useState, useEffect } from 'react';
+import Square from './Square';
+import { Button, TextInput } from 'flowbite-react';
+import Leaderboard from '../../components/Leaderboard';
+import TimerDisplay from '../../components/TimerDisplay';
+import useTimer from '../../hooks/useTimer';
+import useLeaderboard from '../../hooks/useLeaderboard';
 
 interface SquareAttributes {
     text: string,
     color: number,
 }
 
-interface LeaderboardData {
-    username: string,
-    mode: string,
-    score: number,
-    time_ms: number
-}
-
 function Queens() {
     const INITIAL_GAME_SIZE = 5
-    const [size, setSize] = useState<number>(INITIAL_GAME_SIZE)
-    const [squares, setSquares] = useState<SquareAttributes[][]>([])
-    const [pieces, setPieces] = useState<string[]>([])
-    const [result, setResult] = useState<string>('')
-    const [leaderboardData, setLeaderboardData] = useState<LeaderboardData[]>([])
-    const [username, setUsername] = useState<string>('')
-    const [submitted, setSubmitted] = useState<boolean>(false)
-    const { time, setTime, isRunning, setIsRunning } = useTimer()
-
-    useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL}/data/queens`)
-        .then(response => response.json())
-        .then(data => {
-            console.log("Successfully fetched data:", data)
-            setLeaderboardData(data)
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error)
-        });
-    }, [])
+    const [size, setSize] = useState<number>(INITIAL_GAME_SIZE);
+    const [squares, setSquares] = useState<SquareAttributes[][]>([]);
+    const [pieces, setPieces] = useState<string[]>([]);
+    const [result, setResult] = useState<string>('');
+    const [username, setUsername] = useState<string>('');
+    const [submitted, setSubmitted] = useState<boolean>(false);
+    
+    const { time, setTime, isRunning, setIsRunning } = useTimer();
+    const { leaderboardData, postData } = useLeaderboard('queens');
 
     const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault()
-        setSubmitted(true)
-        try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/leaderboard/queens`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    username,
-                    mode: `${size}x${size}`,
-                    score: 0,
-                    time_ms: time,
-                }),
-            });
-        
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-        
-            const result = await response.json();
-            console.log('Score submitted successfully:', result);
-        } catch (error) {
-            console.error('Error submitting score:', error);
+        event.preventDefault();
+        setSubmitted(true);
+        const newEntry = {
+            username,
+            mode: `${size}x${size}`,
+            score: 0,
+            time_ms: time,
         }
+        postData(newEntry);
     }
 
     useEffect(() => {
@@ -270,4 +237,4 @@ function Queens() {
     )
 }
 
-export default Queens
+export default Queens;

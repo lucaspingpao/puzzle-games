@@ -1,4 +1,3 @@
-
 import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 
 interface LeaderboardData {
@@ -9,7 +8,7 @@ interface LeaderboardData {
 }
 
 interface LeaderboardProps {
-    data: LeaderboardData[];
+    data: LeaderboardData[]
 }
 
 function Leaderboard(props: LeaderboardProps) {
@@ -25,10 +24,10 @@ function Leaderboard(props: LeaderboardProps) {
                 </TableHead>
                 <TableBody className="divide-y">
                     {props.data.map((row, idx) => {
-                        const minutes = Math.floor((row.time_ms / 1000) / 60)
-                        const seconds = Math.floor((row.time_ms / 1000) % 60)
-                        const milliseconds = Math.floor((row.time_ms % 1000))
-                        const displayTime = String(minutes) + ':' + String(seconds).padStart(2, '0') + '.' + String(milliseconds).padStart(3, '0')
+                        const minutes = Math.floor((row.time_ms / 1000) / 60);
+                        const seconds = Math.floor((row.time_ms / 1000) % 60);
+                        const milliseconds = Math.floor((row.time_ms % 1000));
+                        const displayTime = String(minutes) + ':' + String(seconds).padStart(2, '0') + '.' + String(milliseconds).padStart(3, '0');
                         return (
                             <TableRow key={idx} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                                 <TableCell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">{idx + 1}</TableCell>
@@ -45,4 +44,4 @@ function Leaderboard(props: LeaderboardProps) {
     );
 }
 
-export default Leaderboard
+export default Leaderboard;

@@ -1,5 +1,5 @@
-import express, { Express, Request, Response } from 'express'
-import cors, { CorsOptions } from 'cors'
+import express, { Express, Request, Response } from 'express';
+import cors, { CorsOptions } from 'cors';
 import pool from './db';
 
 const app: Express = express();
@@ -19,7 +19,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 
-app.post('/api/leaderboard/:game', async (req: Request, res: Response) => {
+app.post('/api/post-leaderboard/:game', async (req: Request, res: Response) => {
   const { game } = req.params;
   try {
     const { username, mode, score, time_ms } = req.body
@@ -32,16 +32,16 @@ app.post('/api/leaderboard/:game', async (req: Request, res: Response) => {
     console.error(err)
     res.status(500).json({ error: 'Database error' })
   }
-})
+});
 
 
 // test endpoint
 app.get('/api/hello', (req, res) => {
   res.send('hello world')
-})
+});
 
 
-app.get('/api/data/:game', async (req: Request, res: Response) => {
+app.get('/api/get-leaderboard/:game', async (req: Request, res: Response) => {
   const { game } = req.params;
   try {
     const { rows } = await pool.query(
@@ -53,14 +53,14 @@ app.get('/api/data/:game', async (req: Request, res: Response) => {
     console.error(err)
     res.status(500).json({ error: 'Database error' })
   }
-})
+});
 
 
 // Set the port to listen on
-const PORT = parseInt(process.env.PORT || '5001')
+const PORT = parseInt(process.env.PORT || '5001');
 
 // Start the server
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 // Export the Express API
-module.exports = app
+module.exports = app;

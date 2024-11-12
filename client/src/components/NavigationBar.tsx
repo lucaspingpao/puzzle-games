@@ -22,7 +22,7 @@ function NavigationBar() {
               <div className="space-y-4 p-4">
                 <li>
                   <a href="/queens" className="hover:text-primary-600 dark:hover:text-primary-500">
-                    Queens
+                    Rooks
                   </a>
                 </li>
                 <li>
@@ -50,7 +50,7 @@ function NavigationBar() {
               <div className="space-y-4 p-4">
                 <li>
                   <a href="/wordle" className="hover:text-primary-600 dark:hover:text-primary-500">
-                    Wordle
+                    WordHole
                   </a>
                 </li>
                 <li>

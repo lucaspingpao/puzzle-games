@@ -2,43 +2,22 @@ import { useState, useEffect } from 'react';
 import { Button, TextInput } from "flowbite-react";
 import Row from './Row';
 import Leaderboard from '../../components/Leaderboard';
-import useTimer from '../../hooks/userTimer';
+import Key from './Key';
 import FIVE_LETTER_WORDS from '../../constants/fiveLetterWords';
 import TimerDisplay from '../../components/TimerDisplay';
-import Key from './Key';
-
-interface LeaderboardData {
-    username: string,
-    mode: string,
-    score: number,
-    time_ms: number
-};
+import useTimer from '../../hooks/useTimer';
+import useLeaderboard from '../../hooks/useLeaderboard';
 
 function Wordle() {
-    const [answer, setAnswer] = useState<string>('')
-    const [guesses, setGuesses] = useState<string[]>(Array(6).fill(''))
-    const [currRow, setCurrRow] = useState<number>(0)
-    const [result, setResult] = useState<string>('')
-    const [leaderboardData, setLeaderboardData] = useState<LeaderboardData[]>([])
-    const [username, setUsername] = useState<string>('')
-    const [submitted, setSubmitted] = useState<boolean>(false)
-    const { time, isRunning, setIsRunning } = useTimer()
-
-    useEffect(() => {
-        fetchData()
-    }, [])
-
-    const fetchData = async () => {
-        fetch(`${import.meta.env.VITE_API_URL}/data/wordle`)
-        .then(response => response.json())
-        .then(data => {
-            console.log("Successfully fetched data:", data)
-            setLeaderboardData(data)
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error)
-        });
-    }
+    const [answer, setAnswer] = useState<string>('');
+    const [guesses, setGuesses] = useState<string[]>(Array(6).fill(''));
+    const [currRow, setCurrRow] = useState<number>(0);
+    const [result, setResult] = useState<string>('');
+    const [username, setUsername] = useState<string>('');
+    const [submitted, setSubmitted] = useState<boolean>(false);
+    
+    const { time, isRunning, setIsRunning } = useTimer();
+    const { leaderboardData, postData } = useLeaderboard('wordle');
 
     useEffect(() => {
         if (answer.length === 0) {
@@ -53,38 +32,21 @@ function Wordle() {
     }, [guesses]);
 
     const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault()
-        setSubmitted(true)
-        try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/leaderboard/wordle`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    username,
-                    mode: '5x6',
-                    score: 6 - guesses.filter(str => str.length > 0).length,
-                    time_ms: time,
-                }),
-            });
-        
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-        
-            const result = await response.json();
-            console.log('Score submitted successfully:', result);
-            fetchData();
-        } catch (error) {
-            console.error('Error submitting score:', error);
+        event.preventDefault();
+        setSubmitted(true);
+        const newEntry = {
+            username,
+            mode: '5x6',
+            score: 6 - guesses.filter(str => str.length > 0).length,
+            time_ms: time,
         }
+        postData(newEntry);
     }
 
     const handleKey = (key: string, backspace: string) => {
         let currWord = guesses[currRow];
         if (key == backspace) {
-            currWord = currWord.slice(0, -1)
+            currWord = currWord.slice(0, -1);
         } else if (/^[a-zA-Z*]$/.test(key) && currWord.length < 5) {
             currWord = currWord + key.toUpperCase();
         } else {
@@ -173,6 +135,6 @@ function Wordle() {
             </div>
         </div>
     )
-};
+}
 
 export default Wordle;
