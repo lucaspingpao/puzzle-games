@@ -25,7 +25,14 @@ function Key(props: KeyProps) {
             break;
     }
     return (
-        <div className={`m-0.5 text-center sm:py-3 py-1 border rounded-md cursor-pointer sm:${regDeviceWidth} ${smallDeviceWidth}`} onClick={props.onClick}>
+        <div
+            className={
+                `m-0.5 text-center sm:py-3 py-1 border rounded-md cursor-pointer
+                ${'sm:' + regDeviceWidth}
+                ${smallDeviceWidth}`
+            }
+            onClick={props.onClick}
+        >
             {keyDisplay}
         </div>
     );

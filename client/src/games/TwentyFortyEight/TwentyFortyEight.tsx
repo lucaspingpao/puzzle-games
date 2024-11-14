@@ -216,6 +216,7 @@ function TwentyFortyEight() {
                                                 key={c}
                                                 value={col}
                                                 new={r === nextSquare[0] && c === nextSquare[1]}
+                                                loc = {[r, c]}
                                             />
                                         )
                                     })}
