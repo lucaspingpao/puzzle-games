@@ -43,32 +43,32 @@ function Queens() {
         let set = new Set()
         for (let el of arr) {
             if (set.has(el)) {
-                return true
+                return true;
             } else {
-                set.add(el)
+                set.add(el);
             }
         }
-        return false
+        return false;
     }
 
     const validateBoard = (pieces: string[]): boolean => {
         const rows = pieces.map((coor) => coor.split('#')[0])
         const columns = pieces.map((coor) => coor.split('#')[1])
         const colors = pieces.map((coor) => {
-            const [row, col] = coor.split('#')
-            return String(squares[Number(row)][Number(col)].color)
+            const [row, col] = coor.split('#');
+            return String(squares[Number(row)][Number(col)].color);
         })
 
         if (containsDuplicate(rows) || containsDuplicate(columns) || containsDuplicate(colors)) {
-            return false
+            return false;
         }
 
-        return true
+        return true;
     }
 
     const handleSquareClick = (row: number, col: number) => {
         if (!isRunning) {
-            return
+            return;
         }
 
         const nextSquares = [...squares]
@@ -77,102 +77,102 @@ function Queens() {
             nextSquares[row][col] = {text: 'x', color: nextSquares[row][col].color}
         } else if (nextSquares[row][col].text == 'x') {
             nextSquares[row][col] = {text: '👑', color: nextSquares[row][col].color}
-            newPieces.push(row + '#' + col)
+            newPieces.push(row + '#' + col);
         } else {
             nextSquares[row][col] = {text: '', color: nextSquares[row][col].color}
-            newPieces = newPieces.filter(val => val != row + '#' + col)
+            newPieces = newPieces.filter(val => val != row + '#' + col);
         }
 
         if (newPieces.length === size) {
-            setIsRunning(false)
+            setIsRunning(false);
             if (validateBoard(newPieces)) {
-                setResult('You won!')
+                setResult('You won!');
             } else {
-                setResult('You lost!')
+                setResult('You lost!');
             }
         }
         
-        setPieces(newPieces)
-        setSquares(nextSquares)
+        setPieces(newPieces);
+        setSquares(nextSquares);
     }
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setIsRunning(false)
-        setTime(0)
-        let newSize = parseInt(e.target.value)
-        setSize(newSize)
-        initializeBoard(newSize)
+        setIsRunning(false);
+        setTime(0);
+        let newSize = parseInt(e.target.value);
+        setSize(newSize);
+        initializeBoard(newSize);
     }
 
     const initializeBoard = (dim: number) => {
         let newSquares = Array.from({ length: dim }, () => 
             Array.from({ length: dim }, () => ({ text: '', color: 0 }))
         )
-        setSquares(newSquares)
+        setSquares(newSquares);
     }
 
     const generateBoard = () => {
-        setTime(0)
-        setIsRunning(true)
-        setResult('')
-        let newSquares = [...squares]
-        let solCols = [...Array(size).keys()]
-        let nextColor = 1
-        let randomQueue: [number, number, number][] = []
-        let visited = new Set()
+        setTime(0);
+        setIsRunning(true);
+        setResult('');
+        let newSquares = [...squares];
+        let solCols = [...Array(size).keys()];
+        let nextColor = 1;
+        let randomQueue: [number, number, number][] = [];
+        let visited = new Set();
 
         // choose n starting points for a possible solution
         for (let r = 0; r < size; r++) {
             let c = solCols[Math.floor(Math.random() * solCols.length)];
             
             if (r > 0) {
-                randomQueue.push([r - 1, c, nextColor])
+                randomQueue.push([r - 1, c, nextColor]);
             }
 
             if (r < size - 1) {
-                randomQueue.push([r + 1, c, nextColor])
+                randomQueue.push([r + 1, c, nextColor]);
             }
             
             if (c > 0) {
-                randomQueue.push([r, c - 1, nextColor])
+                randomQueue.push([r, c - 1, nextColor]);
             }
 
             if (c < size - 1) {
-                randomQueue.push([r, c + 1, nextColor])
+                randomQueue.push([r, c + 1, nextColor]);
             } 
             
             newSquares[r][c] = {text: '', color: nextColor}
-            visited.add(r + '#' + c)
-            solCols.splice(solCols.indexOf(c), 1)
-            nextColor += 1
+            visited.add(r + '#' + c);
+            solCols.splice(solCols.indexOf(c), 1);
+            nextColor += 1;
         }
 
         // flood fill from starting points at random iterations
         while (randomQueue.length > 0) {
-            const randomIndex = Math.floor(Math.random() * randomQueue.length)
-            const [qr, qc, qcolor] = randomQueue.splice(randomIndex, 1)[0]
+            const randomIndex = Math.floor(Math.random() * randomQueue.length);
+            const [qr, qc, qcolor] = randomQueue.splice(randomIndex, 1)[0];
             if (!visited.has(qr + '#' + qc)) {
-                visited.add(qr + '#' + qc)
+                visited.add(qr + '#' + qc);
                 newSquares[qr][qc] = {text: '', color: qcolor}
                 if (qr > 0) {
-                    randomQueue.push([qr - 1, qc, qcolor])
+                    randomQueue.push([qr - 1, qc, qcolor]);
                 }
     
                 if (qr < size - 1) {
-                    randomQueue.push([qr + 1, qc, qcolor])
+                    randomQueue.push([qr + 1, qc, qcolor]);
                 }
                 
                 if (qc > 0) {
-                    randomQueue.push([qr, qc - 1, qcolor])
+                    randomQueue.push([qr, qc - 1, qcolor]);
                 }
     
                 if (qc < size - 1) {
-                    randomQueue.push([qr, qc + 1, qcolor])
+                    randomQueue.push([qr, qc + 1, qcolor]);
                 }
             }
         }
 
-        setSquares(newSquares)
+        setSquares(newSquares);
     }
 
     return (
@@ -211,7 +211,13 @@ function Queens() {
                         value={size}
                         onChange={handleInputChange}
                     />
-                    <Button className="my-4" onClick={generateBoard}>Generate New Board</Button>
+                    
+                    <Button
+                        className="my-4" 
+                        onClick={generateBoard} disabled={isRunning || result.length > 0}
+                    >
+                        Generate New Board
+                    </Button>
 
                     <h2 className='mt-4'>{result}</h2>
                     {result === 'You won!' && 

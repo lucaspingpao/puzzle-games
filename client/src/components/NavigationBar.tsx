@@ -26,8 +26,8 @@ function NavigationBar() {
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-primary-600 dark:hover:text-primary-500">
-                    
+                  <a href="/twentyfortyeight" className="hover:text-primary-600 dark:hover:text-primary-500">
+                    2187
                   </a>
                 </li>
               </div>
