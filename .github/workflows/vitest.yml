@@ -27,4 +27,5 @@ jobs:
       
       - name: Deploy to Vercel
         if: success()  # Only deploy if the tests pass
+        working-directory: ./client
         run: npx vercel --prod --yes --token ${{ secrets.VERCEL_TOKEN }}
