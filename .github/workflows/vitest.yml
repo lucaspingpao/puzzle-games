@@ -24,3 +24,7 @@ jobs:
       - name: Run tests
         working-directory: ./client
         run: npx vitest
+      
+      - name: Deploy to Vercel
+        if: success()  # Only deploy if the tests pass
+        run: npx vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
