@@ -11,6 +11,33 @@ interface SquareAttributes {
     color: number,
 }
 
+export const containsDuplicate = (arr: string[]): boolean => {
+    let set = new Set()
+    for (let el of arr) {
+        if (set.has(el)) {
+            return true;
+        } else {
+            set.add(el);
+        }
+    }
+    return false;
+}
+
+export const validateBoard = (pieces: string[], squares: SquareAttributes[][]): boolean => {
+    const rows = pieces.map((coor) => coor.split('#')[0])
+    const columns = pieces.map((coor) => coor.split('#')[1])
+    const colors = pieces.map((coor) => {
+        const [row, col] = coor.split('#');
+        return String(squares[Number(row)][Number(col)].color);
+    })
+
+    if (containsDuplicate(rows) || containsDuplicate(columns) || containsDuplicate(colors)) {
+        return false;
+    }
+
+    return true;
+}
+
 function Queens() {
     const INITIAL_GAME_SIZE = 5
     const [size, setSize] = useState<number>(INITIAL_GAME_SIZE);
@@ -39,33 +66,6 @@ function Queens() {
         initializeBoard(INITIAL_GAME_SIZE)
     }, [])
 
-    const containsDuplicate = (arr: string[]): boolean => {
-        let set = new Set()
-        for (let el of arr) {
-            if (set.has(el)) {
-                return true;
-            } else {
-                set.add(el);
-            }
-        }
-        return false;
-    }
-
-    const validateBoard = (pieces: string[]): boolean => {
-        const rows = pieces.map((coor) => coor.split('#')[0])
-        const columns = pieces.map((coor) => coor.split('#')[1])
-        const colors = pieces.map((coor) => {
-            const [row, col] = coor.split('#');
-            return String(squares[Number(row)][Number(col)].color);
-        })
-
-        if (containsDuplicate(rows) || containsDuplicate(columns) || containsDuplicate(colors)) {
-            return false;
-        }
-
-        return true;
-    }
-
     const handleSquareClick = (row: number, col: number) => {
         if (!isRunning) {
             return;
@@ -85,7 +85,7 @@ function Queens() {
 
         if (newPieces.length === size) {
             setIsRunning(false);
-            if (validateBoard(newPieces)) {
+            if (validateBoard(newPieces, squares)) {
                 setResult('You won!');
             } else {
                 setResult('You lost!');
