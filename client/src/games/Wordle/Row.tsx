@@ -43,7 +43,7 @@ function Row(props: RowProps) {
     }
 
     return (
-        <div className="flex">
+        <div className="wordle-row flex">
             {charArray.map((c, i) => {
                 return (
                     <Square key={i} letter={c} color={colorMap[i]}/>

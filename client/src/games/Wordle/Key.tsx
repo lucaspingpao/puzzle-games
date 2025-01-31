@@ -27,7 +27,7 @@ function Key(props: KeyProps) {
     return (
         <div
             className={
-                `m-0.5 text-center sm:py-3 py-1 border rounded-md cursor-pointer
+                `keyboard-key m-0.5 text-center sm:py-3 py-1 border rounded-md cursor-pointer
                 ${'sm:' + regDeviceWidth}
                 ${smallDeviceWidth}`
             }

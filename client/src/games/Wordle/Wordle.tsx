@@ -19,10 +19,14 @@ function Wordle() {
     const { time, isRunning, setIsRunning } = useTimer();
     const { leaderboardData, postData } = useLeaderboard('wordle');
 
+    const getRandomWord = (words: Set<string>): string => {
+        const randomIndex = Math.floor(Math.random() * words.size);
+        return Array.from(words)[randomIndex].toUpperCase();
+    };
+    
     useEffect(() => {
         if (answer.length === 0) {
-            const randomIndex = Math.floor(Math.random() * FIVE_LETTER_WORDS.size)
-            setAnswer(Array.from(FIVE_LETTER_WORDS)[randomIndex].toUpperCase())
+            setAnswer(getRandomWord(FIVE_LETTER_WORDS));
         }
 
         if (!result) {
@@ -83,7 +87,7 @@ function Wordle() {
             <div className='grid grid-cols-1 lg:mx-10 xl:mx-20 lg:grid-cols-2'>
                 <div className="flex flex-col items-center">
                     <TimerDisplay time={time}/>
-                    <div className='mb-10 mx-auto'>
+                    <div className='board-rows mb-10 mx-auto'>
                         {guesses.map((str, idx) => {
                             return (
                                 <Row
@@ -114,7 +118,7 @@ function Wordle() {
                         </div>
                     </div>
 
-                    <h2 className='mt-4'>{result}</h2>
+                    <h2 className='result-message mt-4'>{result}</h2>
                     {result === 'You won!' &&
                         <form className="flex flex-col pb-10">
                             <h2>Submit your score to the leaderboard!</h2>

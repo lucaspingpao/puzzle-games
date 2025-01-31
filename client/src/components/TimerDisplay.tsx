@@ -11,7 +11,7 @@ function TimerDisplay(props: TimerDisplayProps) {
   const milliseconds = useMemo(() => Math.floor((props.time % 1000) / 10), [props.time]);
 
   return (
-    <div className="my-4">
+    <div className="timer-display my-4">
       <h1>
         Time: {minutes < 10 ? minutes : String(minutes).padStart(2, '0')}:
         {String(seconds).padStart(2, '0')}.
