@@ -21,3 +21,12 @@ npx tailwindcss -i ./input.css -o ./output.css --minify --watch
 cd server
 npm run dev
 ```
+
+### Testing:
+```
+npx cypress run
+```
+or
+```
+npx cypress open
+```

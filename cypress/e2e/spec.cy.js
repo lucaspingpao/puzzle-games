@@ -3,10 +3,25 @@ describe("WordHole game", () => {
     cy.visit("/wordle");
   });
 
-  it("generates a predictable word", () => {
+  it("goes through a successful play", () => {
     cy.stub(Math, "random").returns(0.36); // word should be 'greed'
-    // Type wrong guess
+    cy.wait(100);
     cy.get('body').type('hello');
+    cy.get('.board-rows').first().find('.wordle-row').first().should('contain', 'H');
+    cy.get('body').type('great');
+    cy.get('body').type('greed');
+    // cy.get('.result-message').should('be.visible');
+    // cy.get('.result-message').should('have.text', 'You won!');
+  });
+
+  it('goes through an unsuccessful play', () => {
+    cy.wait(100)
+    // Make 6 wrong guesses
+    for(let i = 0; i < 6; i++) {
+      cy.get('body').type('wrong');
+    }
+    cy.get('.result-message').should('be.visible');
+    cy.get('.result-message').should('have.text', 'You lost!');
   });
 
   it('should display the rows', () => {
@@ -20,15 +35,6 @@ describe("WordHole game", () => {
     cy.get('.board-rows').first().find('.wordle-row').first().should('contain', 'Q');
     cy.get('body').type('A');
     cy.get('.board-rows').first().find('.wordle-row').first().should('contain', 'Q');
-  });
-
-  it('should handle game over', () => {
-    cy.wait(100)
-    // Make 6 wrong guesses
-    for(let i = 0; i < 6; i++) {
-      cy.get('body').type('wrong');
-    }
-    cy.get('.result-message').should('be.visible');
   });
 
   it('should have a working screen keyboard', () => {
